@@ -8,7 +8,10 @@ Install [Clang](https://clang.llvm.org/)
   winget install llvm.llvm
   ```
 Install [Make](https://www.gnu.org/software/make/manual/make.html)
-- **Windows** (Requires [Chocolatey](https://github.com/chocolatey/choco))
+- **Windows** Requires [Chocolatey](https://github.com/chocolatey/choco))
+```sh
+winget install chocolatey.chocolatey
+```
 ```sh
 choco install make
 ```
