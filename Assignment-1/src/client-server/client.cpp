@@ -7,10 +7,10 @@
 #endif
 
 #define ASIO_STANDALONE
-#include "./../../include/asio-1.28.0/include/asio.hpp"
+#include "asio.hpp"
 const static int PORT = 8080;
 const static std::string URL = "127.0.0.1";
-int main() {
+asio::ip::tcp::socket connectToServer() {
 
   asio::error_code errorCode;
   asio::io_context context;
@@ -24,8 +24,10 @@ int main() {
   if (!errorCode) {
     std::cout << "Connected to " << URL << ":" << PORT << std::endl;
   } else {
-    std::cout << "Failed to connect to address: " << errorCode.message()
+    std::cerr << "Failed to connect to address: " << errorCode.message()
               << std::endl;
   }
-  return 0;
+  return socket;
 }
+
+asio::ip

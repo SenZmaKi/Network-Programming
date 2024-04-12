@@ -6,5 +6,6 @@
 #include "./classes/Catalogue.hpp"
 #include "./classes/misc.hpp"
 #include "./utils.hpp"
+#include "cli.hpp"
 
 #endif // COMMON_H

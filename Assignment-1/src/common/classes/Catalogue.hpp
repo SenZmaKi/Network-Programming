@@ -5,22 +5,20 @@
 #include "misc.hpp"
 #include <vector>
 
-
 class Catalogue {
 public:
   std::vector<Book> books;
 
   Catalogue(std::vector<Book> books);
 
-  void display();
+  std::string display();
 
-  Book *search(std::string title);
-
-  Book *search(unsigned long long int &isbn);
+  std::string search(std::string query);
 
   static Catalogue loadFromDB();
 
-  void purchase(User *user, Store *store);
+  std::string purchaseBook(User *user);
+  std::string payForBook(int bookNumber, User *user, Store *store);
 };
 
-#endif 
+#endif
