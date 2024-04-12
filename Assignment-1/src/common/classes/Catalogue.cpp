@@ -1,8 +1,8 @@
 
-#include "Catalogue.h"
-#include "../utils.h"
-#include "Book.h"
-#include "misc.h"
+#include "Catalogue.hpp"
+#include "../utils.hpp"
+#include "Book.hpp"
+#include "misc.hpp"
 #include <fstream>
 #include <iostream>
 #include <ostream>
@@ -76,5 +76,5 @@ void Catalogue::purchase(User *user, Store *store) {
   user->money -= book.price;
   store->money += book.price;
   book.quantity--;
-  std::cout << "Successfully purchased \"" << book.title << "\"" << std::endl;
+  std::cout << "Successfully purchased \"" << book.title << "\"\n";
 }

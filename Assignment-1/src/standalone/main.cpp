@@ -1,4 +1,4 @@
-#include "../common/lib.h"
+#include "../common/common.hpp"
 #include <algorithm>
 #include <iostream>
 #include <ostream>

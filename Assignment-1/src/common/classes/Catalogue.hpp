@@ -1,8 +1,8 @@
 #ifndef CATALOGUE_H
 #define CATALOGUE_H
 
-#include "Book.h"
-#include "misc.h"
+#include "Book.hpp"
+#include "misc.hpp"
 #include <vector>
 
 
