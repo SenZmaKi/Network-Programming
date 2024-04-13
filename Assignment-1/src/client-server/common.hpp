@@ -1,3 +1,7 @@
+
+#ifndef COMMON_H
+#define COMMON_H
+
 #include "asio.hpp"
 #include <string>
 
@@ -15,3 +19,5 @@ std::string readFromSocket(asio::ip::tcp::socket &socket,
                            asio::error_code &errorCode);
 void writeToSocket(std::string message, asio::ip::tcp::socket &socket);
 void writeToSocket(char message, asio::ip::tcp::socket &socket);
+
+#endif // COMMON_H
