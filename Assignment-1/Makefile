@@ -20,10 +20,11 @@ STANDALONE_EXEC = standalone.exe
 SERVER_EXEC = server.exe
 CLIENT_EXEC = client.exe
 
+# All task
+all: $(SERVER_EXEC) $(CLIENT_EXEC) $(STANDALONE_EXEC)
 
 $(STANDALONE_EXEC): $(STANDALONE_OBJS)
 	$(CXX) $(CXXFLAGS) -o $(STANDALONE_EXEC) $(STANDALONE_OBJS)
-
 
 $(SERVER_EXEC): $(SERVER_OBJS)
 	$(CXX) $(CXXFLAGS) -o $(SERVER_EXEC) $(SERVER_OBJS)
@@ -34,9 +35,7 @@ $(CLIENT_EXEC): $(CLIENT_OBJS)
 .cpp.o:
 	$(CXX) $(CXXFLAGS) -c $<  -o $@
 
-# Tasks
-all: $(SERVER_EXEC) $(CLIENT_EXEC) $(STANDALONE_EXEC)
-
+# More Tasks
 standalone: $(STANDALONE_EXEC)
 
 server: $(SERVER_EXEC)

@@ -16,6 +16,7 @@ function CheckAndInstallTool {
     }
 }
 
+echo ""
 echo "Setting up project"
 echo "Installing C++ dev tools: clang 17.0.6+, make 4.4.1+"
 echo "Installation tools: winget, git, choco"
@@ -41,3 +42,15 @@ echo "From Network-Programming/Assignment-1"
 echo "To run the server: make run_server"
 echo "To run the client: make run_client"
 echo "To run the standalone program: make run_standalone"
+echo "Clean previous builds: make clean"
+try {
+  Get-Command "rm" -ErrorAction Stop | Out-Null
+}
+catch {
+  $gitPath = (Get-Command git).Source
+  $gitDir = Split-Path (Split-Path $gitPath)
+  $binDir = Join-Path $gitDir "usr/bin"
+  echo "'make clean' needs the 'rm' command added to PATH. Please add the following directory to your PATH: $binDir"
+}
+echo "Find more Make tasks at https://github.com/SenZmaKi/Network-Programming/blob/master/README.md#make"
+
