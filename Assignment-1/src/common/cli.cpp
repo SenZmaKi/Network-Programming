@@ -6,10 +6,12 @@
 #include <ostream>
 #include <string>
 
-void cli(std::function<std::string()> displayCatalogue,
+void cli(std::function<std::string()> display,
          std::function<std::string(std::string)> search,
          std::function<std::string()> purchaseBook,
-         std::function<std::string(int)> payForBook) {
+         std::function<std::string(int)> payForBook,
+         std::function<void()> exit) {
+
   std::cout << "Welcome to Chambua Book Store!!!\nWhat would you like to do?\n";
   while (true) {
     std::cout << "\n";
@@ -18,11 +20,11 @@ void cli(std::function<std::string()> displayCatalogue,
     std::cout << "3: Purchase a book\n";
     std::cout << "4: Exit\n";
     std::cout << "> ";
-    auto intent = getInput();
+    auto request = getInput();
     std::cout << "\n";
-    switch (*intent.c_str()) {
+    switch (*request.c_str()) {
     case '1': {
-      auto catalogueStr = displayCatalogue();
+      auto catalogueStr = display();
       std::cout << catalogueStr;
       break;
     }
@@ -47,11 +49,11 @@ void cli(std::function<std::string()> displayCatalogue,
     }
 
     case '4': {
+      exit();
       return;
     }
 
     default: {
-
       std::cout << "Invalid option. please try again.\n";
     }
     }

@@ -1,7 +1,16 @@
+#include "classes/classes.hpp"
 #include <iostream>
 #include <string>
+#include <tuple>
 #include <vector>
 
+std::tuple<User, Store, Catalogue> initDefaults() {
+  User user(1000);
+  Store store(1000000);
+  Catalogue catalogue = Catalogue::loadFromDB();
+  return std::make_tuple(std::move(user), std::move(store),
+                         std::move(catalogue));
+}
 
 std::string getInput() {
   std::string text;

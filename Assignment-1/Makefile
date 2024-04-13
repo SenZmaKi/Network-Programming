@@ -1,12 +1,13 @@
 CXX = clang++
 
 # Compiler flags
-CXXFLAGS = -w -I./src/common
+CXXFLAGS = -w -I./src
 
 # Source files
 COMMON_SRCS = $(wildcard ./src/common/**/*.cpp) $(wildcard ./src/common/*.cpp)
-CLIENT_SRCS = $(COMMON_SRCS) $(wildcard ./src/client-server/client.cpp)
-SERVER_SRCS = $(COMMON_SRCS) $(wildcard ./src/client-server/server.cpp)
+COMMON_CLIENT_SERVER_SRCS = $(wildcard ./src/client-server/common.cpp)
+CLIENT_SRCS = $(COMMON_SRCS) $(wildcard ./src/client-server/client.cpp) $(COMMON_CLIENT_SERVER_SRCS)
+SERVER_SRCS = $(COMMON_SRCS) $(wildcard ./src/client-server/server.cpp) $(COMMON_CLIENT_SERVER_SRCS)
 STANDALONE_SRCS = $(COMMON_SRCS) $(wildcard ./src/standalone/*.cpp)
 
 # Object files

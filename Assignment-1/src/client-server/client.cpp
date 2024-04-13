@@ -1,33 +1,52 @@
+#include "../common/cli.hpp"
+#include "asio.hpp"
+#include "common.hpp"
 #include <iostream>
 #include <string>
-// Need to define WIN32 because each version of windows has slightly different
-// ways of handling networking*
-#ifdef _WIN32
-#define _WIN32_WINNT 0x0A00
-#endif
+#include <utility>
 
-#define ASIO_STANDALONE
-#include "asio.hpp"
-const static int PORT = 8080;
-const static std::string URL = "127.0.0.1";
-asio::ip::tcp::socket connectToServer() {
-
+asio::ip::tcp::socket connectToServer(asio::io_context &context) {
   asio::error_code errorCode;
-  asio::io_context context;
   asio::ip::tcp::endpoint endpoint(asio::ip::make_address(URL, errorCode),
                                    PORT);
   asio::ip::tcp::socket socket(context);
   // For whatever reason socket.connect() still returns an error even though we
-  // pass erroCode the variable to write the error into, this temporary _
+  // pass errorCode the variable to write the error into, this temporary _
   // variable is here to stop my LSP from complaining
   auto _ = socket.connect(endpoint, errorCode);
-  if (!errorCode) {
-    std::cout << "Connected to " << URL << ":" << PORT << std::endl;
-  } else {
+  if (errorCode) {
     std::cerr << "Failed to connect to address: " << errorCode.message()
-              << std::endl;
+              << "\n";
+    exit(1);
   }
-  return socket;
+  std::cout << "Connected to " << URL << ":" << PORT << "\n";
+  return std::move(socket);
 }
 
-asio::ip
+std::string packageRequestMessage(char request, std::string message) {
+  return message + request;
+}
+
+int main() {
+  asio::io_context context;
+  auto socket = connectToServer(context);
+  auto display = [&] {
+    writeToSocket(DISPLAY_REQUEST, socket);
+    return readFromSocket(socket);
+  };
+  auto search = [&](std::string query) {
+    writeToSocket(packageRequestMessage(SEARCH_REQUEST, query), socket);
+    return readFromSocket(socket);
+  };
+  auto purchaseBook = [&] {
+    writeToSocket(PURCHASE_REQUEST, socket);
+    return readFromSocket(socket);
+  };
+  auto payForBook = [&](int bookNumber) {
+    writeToSocket(
+        packageRequestMessage(PAY_REQUEST, std::to_string(bookNumber)), socket);
+    return readFromSocket(socket);
+  };
+  auto exit = [&] { writeToSocket(EXIT_REQUEST, socket); };
+  cli(display, search, purchaseBook, payForBook, exit);
+}
