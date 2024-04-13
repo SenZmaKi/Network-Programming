@@ -23,9 +23,9 @@ Server runs at port `8080` and client connects at url `127.0.0.1` (localhost) yo
 
 - Build All
 
-```sh
+  ```sh
   make
-```
+  ```
 
 - Server
 
