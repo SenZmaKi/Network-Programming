@@ -1,7 +1,7 @@
 CXX = clang++
 
 # Compiler flags
-CXXFLAGS = -w -I./src
+CXXFLAGS = -w -I./include/asio-1.28.0/asio/include -I./src -std=c++20 -pthread
 
 # Source files
 COMMON_SRCS = $(wildcard ./src/common/**/*.cpp) $(wildcard ./src/common/*.cpp)

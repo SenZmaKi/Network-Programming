@@ -19,7 +19,8 @@ std::string Catalogue::display() {
 }
 
 std::string Catalogue::search(std::string query) {
-  if (std::all_of(query.begin(), query.end(), std::isdigit)) {
+  if (std::all_of(query.begin(), query.end(),
+                  [](unsigned char c) { return std::isdigit(c); })) {
     unsigned long long int isbn = std::stoull(query);
     for (Book &book : books) {
       if (book.isbn == isbn) {
@@ -42,7 +43,7 @@ Catalogue Catalogue::loadFromDB() {
   std::vector<Book> books;
   bool isFirstLine = true;
   while (std::getline(file, line)) {
-    if (line == "") {
+    if (line == "" || line == "\r") {
       continue;
     }
     if (isFirstLine) {
