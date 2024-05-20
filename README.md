@@ -9,7 +9,7 @@
 - **Linux/Mac**
   - Install [Clang](https://clang.llvm.org/) 17.0.6+
   - Install [Make](https://www.gnu.org/software/make/manual/make.html) 4.4.1+
-  - Install your equivalent of [MSVC C++ Build tools](https://visualstudio.microsoft.com/visual-cpp-build-tools/)
+  - Install your equivalent of [MSVC C++ Build tools](https://visualstudio.microsoft.com/visual-cpp-build-tools/) (On Linux It's probably pre-installed)
 
 # Make
 
