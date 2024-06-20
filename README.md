@@ -3,7 +3,7 @@
 - **Windows**
 
   ```sh
-  powershell "iwr -Uri https://raw.githubusercontent.com/SenZmaKi/Network-Programming/master/Assignment-1/install.ps1 -UseBasicParsing | iex"
+  powershell "iwr -Uri https://raw.githubusercontent.com/SenZmaKi/Network-Programming/master/install.ps1 -UseBasicParsing | iex"
   ```
 
 - **Linux/Mac**
@@ -14,10 +14,10 @@
 # Make
 
 ```sh
-cd Network-Programming/Assignment-1
+cd Network-Programming/
 ```
 
-Server runs at port `8080` and client connects at url `127.0.0.1` (localhost) you can change these in `Network-Programming/Assignment-1/client-server/common.hpp`
+Server runs at port `8080` and client connects at url `127.0.0.1` (localhost) you can change these in `Network-Programming/client-server/common.hpp`
 
 ## Run/Build
 
