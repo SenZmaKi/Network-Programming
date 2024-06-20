@@ -1,7 +1,0 @@
-
-S/No    Title    Authors    ISBN    Publisher    Date of publication     Price     Quantity
-1    To Kill a Mockingbird    Harper Lee    9780446310789    Grand Central Publishing    1988-10-11    799    10
-2    1984    George Orwell    9780451524935    Signet Classic    1950-07-01    599    20
-3    The Great Gatsby    F. Scott Fitzgerald    9780743273565    Scribner    2004-09-30    399    30
-4    Moby Dick    Herman Melville    9781503280786    CreateSpace Independent Publishing Platform    2014-11-11    699    40
-5    War and Peace    Leo Tolstoy    9781400079988    Vintage    2008-12-02    1199    69
