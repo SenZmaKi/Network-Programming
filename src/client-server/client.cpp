@@ -5,48 +5,42 @@
 #include <string>
 #include <utility>
 
-asio::ip::tcp::socket connectToServer(asio::io_context &context) {
-  asio::error_code errorCode;
-  asio::ip::tcp::endpoint endpoint(asio::ip::make_address(URL, errorCode),
-                                   PORT);
-  asio::ip::tcp::socket socket(context);
-  // For whatever reason socket.connect() still returns an error even though we
-  // pass errorCode the variable to write the error into, this temporary _
-  // variable is here to stop my LSP from complaining
-  auto _ = socket.connect(endpoint, errorCode);
-  if (errorCode) {
-    std::cerr << "Failed to connect to address: " << errorCode.message()
-              << "\n";
-    exit(1);
-  }
-  std::cout << "Connected to " << URL << ":" << PORT << "\n";
+
+asio::ip::udp::socket createSocket(asio::io_context &context) {
+  asio::ip::udp::socket socket(context);
+  socket.open(asio::ip::udp::v4());
   return std::move(socket);
 }
 
-std::string packageRequestMessage(char request, std::string message) {
+std::string packageRequestMessage(char request, const std::string &message) {
   return message + request;
 }
 
 int main() {
   asio::io_context context;
-  auto socket = connectToServer(context);
+  auto socket = createSocket(context);
+  asio::ip::udp::endpoint serverEndpoint(asio::ip::make_address(URL), PORT);
+
   auto display = [&] {
-    writeToSocket(DISPLAY_REQUEST, socket);
-    return readFromSocket(socket);
+    writeToSocket(DISPLAY_REQUEST, socket, serverEndpoint);
+    return readFromSocket(socket, serverEndpoint);
   };
-  auto search = [&](std::string query) {
-    writeToSocket(packageRequestMessage(SEARCH_REQUEST, query), socket);
-    return readFromSocket(socket);
+  auto search = [&](const std::string &query) {
+    writeToSocket(packageRequestMessage(SEARCH_REQUEST, query), socket,
+                  serverEndpoint);
+    return readFromSocket(socket, serverEndpoint);
   };
   auto purchaseBook = [&] {
-    writeToSocket(PURCHASE_REQUEST, socket);
-    return readFromSocket(socket);
+    writeToSocket(PURCHASE_REQUEST, socket, serverEndpoint);
+    return readFromSocket(socket, serverEndpoint);
   };
   auto payForBook = [&](int bookNumber) {
     writeToSocket(
-        packageRequestMessage(PAY_REQUEST, std::to_string(bookNumber)), socket);
-    return readFromSocket(socket);
+        packageRequestMessage(PAY_REQUEST, std::to_string(bookNumber)), socket,
+        serverEndpoint);
+    return readFromSocket(socket, serverEndpoint);
   };
-  auto exit = [&] { writeToSocket(EXIT_REQUEST, socket); };
+  auto exit = [&] { writeToSocket(EXIT_REQUEST, socket, serverEndpoint); };
+
   cli(display, search, purchaseBook, payForBook, exit);
 }

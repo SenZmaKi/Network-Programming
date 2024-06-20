@@ -1,20 +1,23 @@
 #include "common.hpp"
 #include "asio.hpp"
 #include <iostream>
+#include <vector>
 
-std::string readFromSocket(asio::ip::tcp::socket &socket,
+std::string readFromSocket(asio::ip::udp::socket &socket,
+                           asio::ip::udp::endpoint &endpoint,
                            asio::error_code &errorCode) {
-  asio::streambuf buf;
-  asio::read_until(socket, buf, SOCKET_EOF_DELIMETER, errorCode);
-  std::string data;
-  if (!errorCode) {
-    data = asio::buffer_cast<const char *>(buf.data());
+  std::vector<char> buf(1024);
+  auto len = socket.receive_from(asio::buffer(buf), endpoint, 0, errorCode);
+  if (errorCode) {
+    return "";
   }
-  return data;
+  return std::string(buf.data(), len);
 }
-std::string readFromSocket(asio::ip::tcp::socket &socket) {
+
+std::string readFromSocket(asio::ip::udp::socket &socket,
+                           asio::ip::udp::endpoint &endpoint) {
   asio::error_code errorCode;
-  std::string data = readFromSocket(socket, errorCode);
+  std::string data = readFromSocket(socket, endpoint, errorCode);
   if (errorCode) {
     std::cerr << "Failed to read from socket: " << errorCode.message() << "\n";
     exit(1);
@@ -22,15 +25,17 @@ std::string readFromSocket(asio::ip::tcp::socket &socket) {
   return data;
 }
 
-void writeToSocket(std::string message, asio::ip::tcp::socket &socket) {
+void writeToSocket(const std::string &message, asio::ip::udp::socket &socket,
+                   const asio::ip::udp::endpoint &endpoint) {
   asio::error_code errorCode;
-  asio::write(socket, asio::buffer(message + SOCKET_EOF_DELIMETER), errorCode);
+  socket.send_to(asio::buffer(message), endpoint, 0, errorCode);
   if (errorCode) {
     std::cerr << "Failed to write to socket: " << errorCode.message() << "\n";
     exit(1);
   }
 }
 
-void writeToSocket(char request, asio::ip::tcp::socket &socket) {
-  writeToSocket(std::string(1, request), socket);
+void writeToSocket(char request, asio::ip::udp::socket &socket,
+                   const asio::ip::udp::endpoint &endpoint) {
+  writeToSocket(std::string(1, request), socket, endpoint);
 }
